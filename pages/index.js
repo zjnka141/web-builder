@@ -1,3 +1,3 @@
-import 'destack/build/browser/index.css'
-export { getStaticProps } from 'destack/build/server'
-export { ContentProvider as default } from 'destack'
+export default function Home() {
+    return <h1>Home</h1>
+}
