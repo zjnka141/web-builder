@@ -2,7 +2,8 @@ import 'grapesjs/dist/css/grapes.min.css'
 import { loadData } from "../../../../lib/destack/build/server";
 import supabase from "../../../../supabase";
 
-export { ContentProvider as default } from '../../../../lib/destack/build/browser'
+import { ContentProvider } from '../../../../lib/destack/build/browser'
+import Script from "next/script";
 
 export const getStaticPaths = async () => {
   const {data, error} = await supabase.from('Event').select('id').order('updated_at', { ascending: false }).limit(100)
@@ -18,3 +19,13 @@ export const getStaticProps = async ({params}) => {
     return { props: { data }, revalidate: 60 };
   };
 
+
+export default function Page(props) {
+  
+  return (
+    <>
+      <ContentProvider {...props} />
+      <Script src="https://kit.fontawesome.com/777c2040eb.js" />
+    </>
+  )
+}
