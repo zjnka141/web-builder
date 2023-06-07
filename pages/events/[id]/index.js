@@ -26,7 +26,7 @@ export default function Page(props) {
   
     useEffect(() => {
       const revalidatePath = async () => {
-        await fetch(`${process.env.NEXT_PUBLIC_URL}/api/revalidate?path=events__${id}`)
+        await fetch(`${process.env.NEXT_PUBLIC_URL}api/revalidate?path=events__${id}`)
       };
   
       router.events.on("routeChangeStart", revalidatePath);
