@@ -9,7 +9,8 @@ export const getStaticProps = async () => {
     }
 
     return {
-        props: {events: data}
+        props: {events: data},
+        revalidate: 60,
     }
   }
   
