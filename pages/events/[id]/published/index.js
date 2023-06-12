@@ -22,6 +22,14 @@ export const getStaticProps = async ({params}) => {
 
 
 export default function Page(props) {
+  const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
+  let match;
+  const scripts = []
+  while (match = re.exec(props.data.content)) {
+    // full match is in match[0], whereas captured groups are in ...[1], ...[2], etc.
+    scripts.push(match[1]);
+  }
+  
   return (
     <>
       <Head>
@@ -34,38 +42,13 @@ export default function Page(props) {
       <Script src="https://kit.fontawesome.com/777c2040eb.js" />
       <Script src="//unpkg.com/alpinejs"></Script>
       <Script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></Script>
-      <Script>
-        {`
-          const initLib = function () {
-            const swiper = new Swiper(".mySwiper", {
-              slidesPerView: 1,
-              spaceBetween: 30,
-              centeredSlides: true,
-              autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-              },
-              pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-              },
-              navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-              },
-            });
-            console.log("swiper :>> ", swiper);
-          };
-          if (typeof Swiper == "undefined") {
-              const script = document.createElement("script");
-              script.onload = initLib;
-              script.src = "https://unpkg.com/swiper@7/swiper-bundle.min.js";
-              document.body.appendChild(script);
-          } else {
-              initLib();
+      {scripts.map((script, i) => (
+        <Script strategy="lazyOnload" key={i}>
+          {
+            `${script.replace(/\\n/g, '').replace(/\\/g, '')}`
           }
-        `}
-      </Script>
+        </Script>
+      ))}
     </>
   )
 }
