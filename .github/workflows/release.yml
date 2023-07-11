@@ -14,6 +14,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: google-github-actions/release-please-action@v3
+              env:
+                GITHUB_TOKEN: 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
               with:
                   release-type: node
                   package-name: release-please-action
+                  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
